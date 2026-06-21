@@ -1,0 +1,28 @@
+<aside class="sidebar">
+  <% 
+    // Filter ads for the sidebar placement
+    const sidebarAds = (typeof ads !== 'undefined' ? ads : []).filter(a => a.placement === 'sidebar' || !a.placement); 
+  %>
+  
+  <% if (sidebarAds.length > 0) { %>
+    <% sidebarAds.forEach(function(ad) { %>
+      <div class="sidebar-ad">
+        <span class="ad-label">Advertisement</span>
+        <% if (ad.html_code) { %>
+          <%- ad.html_code %>
+        <% } else if (ad.image_url) { %>
+          <a href="<%= ad.link_url || '#' %>" target="_blank" rel="noopener noreferrer">
+            <img src="<%= ad.image_url %>" alt="<%= ad.title || 'Advertisement' %>">
+          </a>
+        <% } %>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <div class="sidebar-ad">
+      <div class="sidebar-ad-placeholder">
+        <p>Ad Space</p>
+        <span>300 &times; 250</span>
+      </div>
+    </div>
+  <% } %>
+</aside>

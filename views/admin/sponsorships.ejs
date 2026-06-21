@@ -1,0 +1,87 @@
+<%- include('../partials/header') %>
+<link rel="stylesheet" href="/css/admin.css">
+
+<div class="admin-layout">
+  <nav class="admin-nav">
+    <div class="admin-nav-title">Admin Panel</div>
+    <a href="/admin" class="admin-nav-link">Dashboard</a>
+    <a href="/admin/posts" class="admin-nav-link">Posts</a>
+    <a href="/admin/users" class="admin-nav-link">Users</a>
+    <a href="/admin/ads" class="admin-nav-link">Ads</a>
+    <a href="/admin/categories" class="admin-nav-link">Categories</a>
+    <a href="/admin/sponsorships" class="admin-nav-link active">Sponsorships</a>
+  </nav>
+
+  <div class="admin-content">
+    <h1 style="margin-bottom: var(--space-8);">Manage Sponsorship Requests</h1>
+
+    <div style="background: var(--color-surface); border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); overflow: hidden;">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>User</th>
+            <th>Post Title</th>
+            <th>Offer</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (requests.length === 0) { %>
+            <tr>
+              <td colspan="6" style="text-align: center; color: var(--color-text-muted);">No sponsorship requests found.</td>
+            </tr>
+          <% } else { %>
+            <% requests.forEach(function(r) { %>
+              <tr>
+                <td><%= new Date(r.created_at).toLocaleDateString() %></td>
+                <td>
+                  <strong><%= r.users?.display_name %></strong><br>
+                  <span style="color: var(--color-text-muted); font-size: 0.75rem;"><%= r.users?.email %></span>
+                </td>
+                <td>
+                  <%= r.posts?.title %><br>
+                  <a href="/blog/<%= r.posts?.slug %>" target="_blank" style="font-size: 0.75rem; color: var(--color-primary);">View Post</a>
+                  <% if (r.message) { %>
+                    <div style="font-size: 0.75rem; margin-top: 4px; padding: 4px; background: var(--color-background); border-radius: 4px;">
+                      <em>"<%= r.message %>"</em>
+                    </div>
+                  <% } %>
+                </td>
+                <td>$<%= r.amount_offered %></td>
+                <td>
+                  <span class="status-badge <%= r.status === 'approved' ? 'status-published' : (r.status === 'rejected' ? 'status-draft' : '') %>">
+                    <%= r.status.charAt(0).toUpperCase() + r.status.slice(1) %>
+                  </span>
+                </td>
+                <td>
+                  <% if (r.status === 'pending') { %>
+                    <div style="display: flex; gap: 8px;">
+                      <form method="POST" action="/admin/sponsorships/<%= r.id %>/approve">
+                        <input type="hidden" name="post_id" value="<%= r.post_id %>">
+                        <button type="submit" class="btn btn-primary btn-sm">Approve</button>
+                      </form>
+                      <form method="POST" action="/admin/sponsorships/<%= r.id %>/reject">
+                        <input type="hidden" name="post_id" value="<%= r.post_id %>">
+                        <button type="submit" class="btn btn-ghost btn-sm" style="color: red;">Reject</button>
+                      </form>
+                    </div>
+                  <% } else if (r.status === 'approved') { %>
+                    <form method="POST" action="/admin/sponsorships/<%= r.id %>/revoke">
+                        <input type="hidden" name="post_id" value="<%= r.post_id %>">
+                        <button type="submit" class="btn btn-ghost btn-sm">Revoke</button>
+                    </form>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

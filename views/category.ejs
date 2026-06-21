@@ -1,0 +1,31 @@
+<%- include('partials/header') %>
+
+<div class="page-header">
+  <h1><%= category.name %></h1>
+  <% if (category.description) { %>
+    <p><%= category.description %></p>
+  <% } %>
+</div>
+
+<div class="container">
+  <div class="content-with-sidebar">
+    <div class="main-content">
+      <div class="posts-grid">
+        <% if (posts.length > 0) { %>
+          <% posts.forEach(function(post) { %>
+            <%- include('partials/post-card', { post: post }) %>
+          <% }) %>
+        <% } else { %>
+          <div class="empty-state">
+            <h3>No posts in this category yet</h3>
+            <p>Be the first to write about <%= category.name %>!</p>
+            <a href="/dashboard/new" class="btn btn-primary">Write a Post</a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+    <%- include('partials/sidebar', { ads: ads }) %>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

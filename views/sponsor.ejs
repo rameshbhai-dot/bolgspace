@@ -1,0 +1,61 @@
+<%- include('partials/header') %>
+
+<div class="page-header">
+  <div class="container">
+    <h1>Promote Your Story</h1>
+    <p>Reach a wider audience by sponsoring your blog post on our homepage.</p>
+  </div>
+</div>
+
+<div class="container" style="max-width: 600px; margin-bottom: var(--space-16);">
+  <div style="background: var(--color-surface); border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); padding: var(--space-8);">
+    
+    <% if (success) { %>
+      <div style="background: #e6f8ec; color: #0a5c2d; padding: var(--space-4); border-radius: var(--radius-md); margin-bottom: var(--space-6);">
+        <strong>Success!</strong> Your sponsorship request has been received. Our team will review it and contact you shortly with payment details.
+      </div>
+    <% } %>
+
+    <h2 style="font-size: var(--font-size-xl); margin-top: 0; margin-bottom: var(--space-4);">Sponsorship Request</h2>
+    <p style="color: var(--color-text-secondary); margin-bottom: var(--space-6);">Fill out this form to request a premium placement for one of your published posts. We review all requests manually to ensure quality.</p>
+
+    <% if (!user) { %>
+      <div style="background: var(--color-background); border-radius: var(--radius-md); padding: var(--space-6); text-align: center;">
+        <p style="margin-bottom: var(--space-4);">You need to be logged in to sponsor a post.</p>
+        <a href="/auth/login" class="btn btn-primary">Log In to Continue</a>
+      </div>
+    <% } else if (userPosts.length === 0) { %>
+      <div style="background: var(--color-background); border-radius: var(--radius-md); padding: var(--space-6); text-align: center;">
+        <p style="margin-bottom: var(--space-4);">You don't have any published posts yet. Publish a story first before requesting sponsorship.</p>
+        <a href="/dashboard/new" class="btn btn-primary">Write a Post</a>
+      </div>
+    <% } else { %>
+      <form action="/sponsor" method="POST">
+        <div class="form-group" style="margin-bottom: var(--space-4);">
+          <label class="form-label" style="display: block; margin-bottom: var(--space-2); font-weight: 500;">Select Post to Sponsor</label>
+          <select name="post_id" class="form-input" style="width: 100%; padding: var(--space-3); border-radius: var(--radius-md); border: 1px solid var(--color-border-light);" required>
+            <% userPosts.forEach(post => { %>
+              <option value="<%= post.id %>"><%= post.title %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: var(--space-4);">
+          <label class="form-label" style="display: block; margin-bottom: var(--space-2); font-weight: 500;">Amount Offered ($)</label>
+          <input type="number" name="amount_offered" class="form-input" style="width: 100%; padding: var(--space-3); border-radius: var(--radius-md); border: 1px solid var(--color-border-light);" min="10" step="1" placeholder="e.g. 50" required>
+          <small style="color: var(--color-text-muted); display: block; margin-top: var(--space-1);">Minimum $10 required.</small>
+        </div>
+
+        <div class="form-group" style="margin-bottom: var(--space-6);">
+          <label class="form-label" style="display: block; margin-bottom: var(--space-2); font-weight: 500;">Message / Notes (Optional)</label>
+          <textarea name="message" class="form-input" style="width: 100%; padding: var(--space-3); border-radius: var(--radius-md); border: 1px solid var(--color-border-light);" rows="3" placeholder="Any specific requests for the promotion?"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Submit Request</button>
+      </form>
+    <% } %>
+
+  </div>
+</div>
+
+<%- include('partials/footer') %>

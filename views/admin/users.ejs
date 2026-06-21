@@ -1,0 +1,52 @@
+<%- include('../partials/header') %>
+<link rel="stylesheet" href="/css/admin.css">
+
+<div class="admin-layout">
+  <nav class="admin-nav">
+    <div class="admin-nav-title">Admin Panel</div>
+    <a href="/admin" class="admin-nav-link">Dashboard</a>
+    <a href="/admin/posts" class="admin-nav-link">Posts</a>
+    <a href="/admin/users" class="admin-nav-link active">Users</a>
+    <a href="/admin/ads" class="admin-nav-link">Ads</a>
+    <a href="/admin/categories" class="admin-nav-link">Categories</a>
+  </nav>
+
+  <div class="admin-content">
+    <h1 style="margin-bottom: var(--space-8);">Manage Users</h1>
+
+    <table class="posts-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Joined</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach(function(u) { %>
+          <tr>
+            <td><strong><%= u.display_name %></strong></td>
+            <td><%= u.email %></td>
+            <td><span class="status-badge" style="background: <%= u.role === 'admin' ? '#EDE9FE' : 'var(--color-primary-light)' %>; color: <%= u.role === 'admin' ? '#7C3AED' : 'var(--color-primary)' %>;"><%= u.role %></span></td>
+            <td><span class="status-badge <%= u.is_active ? 'status-published' : 'status-draft' %>"><%= u.is_active ? 'Active' : 'Disabled' %></span></td>
+            <td><%= new Date(u.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></td>
+            <td>
+              <% if (u.role !== 'admin') { %>
+                <form method="POST" action="/admin/users/toggle/<%= u.id %>" style="display:inline;">
+                  <button type="submit" class="btn btn-outline btn-icon"><%= u.is_active ? 'Disable' : 'Enable' %></button>
+                </form>
+              <% } else { %>
+                <span style="color: var(--color-text-muted); font-size: 0.8rem;">—</span>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,126 @@
+<%- include('../partials/header') %>
+<link rel="stylesheet" href="/css/admin.css">
+
+<div class="admin-layout">
+  <nav class="admin-nav">
+    <div class="admin-nav-title">Admin Panel</div>
+    <a href="/admin" class="admin-nav-link">Dashboard</a>
+    <a href="/admin/posts" class="admin-nav-link">Posts</a>
+    <a href="/admin/users" class="admin-nav-link">Users</a>
+    <a href="/admin/ads" class="admin-nav-link active">Ads</a>
+    <a href="/admin/categories" class="admin-nav-link">Categories</a>
+  </nav>
+
+  <div class="admin-content">
+    <h1 style="margin-bottom: var(--space-8);">Manage Ad Slots</h1>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); align-items: start;">
+      <!-- Ad Form -->
+      <div class="admin-form">
+        <h2><%= ad ? 'Edit Ad' : 'Create New Ad' %></h2>
+        <form method="POST" action="/admin/ads" enctype="multipart/form-data">
+          <% if (ad) { %>
+            <input type="hidden" name="id" value="<%= ad.id %>">
+            <input type="hidden" name="existing_image" value="<%= ad.image_url %>">
+          <% } %>
+
+          <div class="form-group">
+            <label class="form-label">Internal Name / Identifier</label>
+            <input type="text" name="slot_name" class="form-input" placeholder="e.g. Summer Promo" value="<%= ad ? ad.slot_name : '' %>" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Placement</label>
+            <select name="placement" class="form-input" required>
+              <option value="sidebar" <%= (ad && ad.placement === 'sidebar') ? 'selected' : '' %>>Sidebar</option>
+              <option value="homepage_hero" <%= (ad && ad.placement === 'homepage_hero') ? 'selected' : '' %>>Homepage Hero (Top)</option>
+              <option value="in_article" <%= (ad && ad.placement === 'in_article') ? 'selected' : '' %>>In-Article</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Title (Optional)</label>
+            <input type="text" name="title" class="form-input" placeholder="Ad title" value="<%= ad ? ad.title : '' %>">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ad Image</label>
+            <input type="file" name="ad_image" class="form-input form-input-file" accept="image/*">
+            <% if (ad && ad.image_url) { %>
+              <img src="<%= ad.image_url %>" style="width:100%; max-height: 150px; object-fit: cover; border-radius: var(--radius-md); margin-top: var(--space-3);" alt="Current ad">
+            <% } %>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Link URL</label>
+            <input type="text" name="link_url" class="form-input" placeholder="https://example.com" value="<%= ad ? ad.link_url : '' %>">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">HTML / Ad Code (Optional)</label>
+            <textarea name="html_code" class="form-input" rows="4" placeholder="Paste ad network code, affiliate HTML, etc."><%= ad ? ad.html_code : '' %></textarea>
+            <small style="color: var(--color-text-muted); font-size: 0.75rem;">If HTML code is provided, it will be used instead of image + link.</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Position/Order</label>
+            <input type="number" name="position" class="form-input" value="<%= ad ? ad.position : 0 %>" min="0">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+            <div class="form-group">
+              <label class="form-label">Start Date</label>
+              <input type="datetime-local" name="start_date" class="form-input" value="<%= ad && ad.start_date ? new Date(ad.start_date).toISOString().slice(0,16) : '' %>" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">End Date</label>
+              <input type="datetime-local" name="end_date" class="form-input" value="<%= ad && ad.end_date ? new Date(ad.end_date).toISOString().slice(0,16) : '' %>" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="radio-label">
+              <input type="checkbox" name="is_active" value="1" <%= (!ad || ad.is_active) ? 'checked' : '' %>>
+              Active
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary"><%= ad ? 'Update Ad' : 'Create Ad' %></button>
+          <% if (ad) { %>
+            <a href="/admin/ads" class="btn btn-ghost">Cancel</a>
+          <% } %>
+        </form>
+      </div>
+
+      <!-- Existing Ads -->
+      <div>
+        <h2 style="font-size: var(--font-size-xl); font-weight: 600; margin-bottom: var(--space-6);">Existing Ads</h2>
+        <% if (ads.length === 0) { %>
+          <p style="color: var(--color-text-muted);">No ads created yet.</p>
+        <% } else { %>
+          <% ads.forEach(function(a) { %>
+            <div style="background: var(--color-surface); border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); padding: var(--space-5); margin-bottom: var(--space-4);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3);">
+                <strong style="font-size: var(--font-size-sm);"><%= a.slot_name %> (<%= a.placement %>)</strong>
+                <span class="status-badge <%= a.is_active ? 'status-published' : 'status-draft' %>"><%= a.is_active ? 'Active' : 'Inactive' %></span>
+              </div>
+              <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: var(--space-3);">
+                Runs: <%= new Date(a.start_date).toLocaleDateString() %> - <%= new Date(a.end_date).toLocaleDateString() %>
+              </div>
+              <% if (a.title) { %><p style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin-bottom: var(--space-3);"><%= a.title %></p><% } %>
+              <% if (a.image_url) { %><img src="<%= a.image_url %>" style="width: 100%; max-height: 80px; object-fit: cover; border-radius: var(--radius-sm); margin-bottom: var(--space-3);" alt="Ad"><% } %>
+              <div class="actions">
+                <a href="/admin/ads/edit/<%= a.id %>" class="btn btn-outline btn-icon">Edit</a>
+                <form method="POST" action="/admin/ads/delete/<%= a.id %>" style="display:inline;" onsubmit="return confirm('Delete this ad?')">
+                  <button type="submit" class="btn btn-danger btn-icon">Delete</button>
+                </form>
+              </div>
+            </div>
+          <% }) %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

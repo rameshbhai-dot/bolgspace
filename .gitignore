@@ -1,0 +1,6 @@
+node_modules/
+.env
+uploads/
+check_users.js
+.DS_Store
+*.log

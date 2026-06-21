@@ -1,0 +1,57 @@
+<%- include('../partials/header') %>
+<link rel="stylesheet" href="/css/admin.css">
+
+<div class="admin-layout">
+  <nav class="admin-nav">
+    <div class="admin-nav-title">Admin Panel</div>
+    <a href="/admin" class="admin-nav-link">Dashboard</a>
+    <a href="/admin/posts" class="admin-nav-link active">Posts</a>
+    <a href="/admin/users" class="admin-nav-link">Users</a>
+    <a href="/admin/ads" class="admin-nav-link">Ads</a>
+    <a href="/admin/categories" class="admin-nav-link">Categories</a>
+  </nav>
+
+  <div class="admin-content">
+    <h1 style="margin-bottom: var(--space-8);">Manage Posts</h1>
+
+    <% if (posts.length === 0) { %>
+      <div class="empty-state"><h3>No posts yet</h3></div>
+    <% } else { %>
+      <table class="posts-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Views</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% posts.forEach(function(post) { %>
+            <tr>
+              <td><a href="/blog/<%= post.slug %>" style="color: var(--color-primary); font-weight: 500;"><%= post.title %></a></td>
+              <td><%= post.display_name || post.username %></td>
+              <td><%= post.category_name || '—' %></td>
+              <td><span class="status-badge status-<%= post.status %>"><%= post.status %></span></td>
+              <td><%= post.views %></td>
+              <td><%= new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %></td>
+              <td>
+                <div class="actions">
+                  <a href="/dashboard/edit/<%= post.id %>" class="btn btn-outline btn-icon">Edit</a>
+                  <form method="POST" action="/admin/posts/delete/<%= post.id %>" style="display:inline;" onsubmit="return confirm('Delete this post? This cannot be undone.')">
+                    <button type="submit" class="btn btn-danger btn-icon">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
