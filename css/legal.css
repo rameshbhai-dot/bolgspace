@@ -1,0 +1,204 @@
+/* ========================================
+   Legal Pages (Privacy Policy & Terms)
+   ======================================== */
+
+.legal-page {
+  padding: var(--space-12) 0 var(--space-16);
+  min-height: 60vh;
+}
+
+.legal-header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.legal-header h1 {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-3);
+}
+
+.legal-updated {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-style: italic;
+}
+
+.legal-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.legal-section {
+  margin-bottom: var(--space-8);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-light);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.legal-section:hover {
+  border-color: rgba(99, 102, 241, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.legal-section h2 {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 2px solid rgba(99, 102, 241, 0.15);
+}
+
+.legal-section h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+.legal-section p {
+  color: var(--color-text-secondary);
+  line-height: 1.75;
+  margin-bottom: var(--space-3);
+}
+
+.legal-section ul {
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-3);
+}
+
+.legal-section li {
+  color: var(--color-text-secondary);
+  line-height: 1.75;
+  margin-bottom: var(--space-2);
+  position: relative;
+}
+
+.legal-section li::marker {
+  color: var(--color-primary);
+}
+
+.legal-section a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+
+.legal-section a:hover {
+  color: var(--color-primary-light);
+}
+
+.legal-section strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* ========================================
+   Cookie Consent Banner
+   ======================================== */
+
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border-light);
+  padding: var(--space-4) var(--space-6);
+  z-index: 10000;
+  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  backdrop-filter: blur(10px);
+  animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.cookie-banner p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  margin: 0;
+  max-width: 600px;
+}
+
+.cookie-banner a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.cookie-banner-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.cookie-banner .btn-accept {
+  padding: 0.5rem 1.25rem;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cookie-banner .btn-accept:hover {
+  background: var(--color-primary-dark);
+}
+
+.cookie-banner .btn-decline {
+  padding: 0.5rem 1.25rem;
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cookie-banner .btn-decline:hover {
+  background: var(--color-border-light);
+  color: var(--color-text);
+}
+
+@media (max-width: 768px) {
+  .legal-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .legal-section {
+    padding: var(--space-4);
+  }
+
+  .cookie-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: var(--space-4);
+  }
+}

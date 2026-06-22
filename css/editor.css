@@ -1,0 +1,248 @@
+/* ============================================
+   BlogSpace — Editor & Dashboard Styles
+   ============================================ */
+
+/* Dashboard Layout */
+.dashboard-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: calc(var(--navbar-height) + var(--space-8));
+  margin-bottom: var(--space-8);
+}
+
+.dashboard-header h1 {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Posts Table */
+.posts-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-light);
+}
+
+.posts-table th {
+  text-align: left;
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.posts-table td {
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--font-size-sm);
+  border-bottom: 1px solid var(--color-border-light);
+  vertical-align: middle;
+}
+
+.posts-table tr:hover td {
+  background: var(--color-bg);
+}
+
+.posts-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-published {
+  background: var(--color-success-light);
+  color: var(--color-success);
+}
+
+.status-draft {
+  background: var(--color-warning-light);
+  color: var(--color-warning);
+}
+
+/* Action Buttons */
+.actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.btn-icon {
+  padding: 5px 12px;
+  font-size: var(--font-size-xs);
+}
+
+/* ========== EDITOR ========== */
+.editor-layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.editor-title-input {
+  width: 100%;
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  border: none;
+  outline: none;
+  padding: var(--space-4) 0;
+  font-family: var(--font-sans);
+  background: transparent;
+  border-bottom: 2px solid var(--color-border-light);
+  margin-bottom: var(--space-6);
+  transition: border-color var(--transition-base);
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+.editor-title-input:focus {
+  border-color: var(--color-primary);
+}
+
+.editor-title-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.editor-body {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: var(--space-8);
+  margin-top: var(--space-6);
+}
+
+.editor-sidebar-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-light);
+  margin-bottom: var(--space-6);
+}
+
+.editor-sidebar-card h3 {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.image-preview {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  margin-top: var(--space-3);
+  border: 1px solid var(--color-border-light);
+}
+
+.image-preview-placeholder {
+  width: 100%;
+  height: 120px;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  margin-top: var(--space-3);
+  font-size: var(--font-size-sm);
+}
+
+/* Quill Editor Overrides */
+.ql-toolbar.ql-snow {
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+  background: var(--color-bg);
+  border-color: var(--color-border);
+  font-family: var(--font-sans);
+}
+
+.ql-container.ql-snow {
+  border-bottom-left-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+  border-color: var(--color-border);
+  font-family: var(--font-serif);
+  font-size: var(--font-size-lg);
+  min-height: 400px;
+}
+
+.ql-snow .ql-editor {
+  line-height: 1.8;
+  padding: var(--space-6);
+}
+
+.ql-editor.ql-blank::before {
+  font-style: normal;
+  color: var(--color-text-muted);
+}
+
+/* Radio Group */
+.radio-group {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+}
+
+.radio-label input[type="radio"],
+.radio-label input[type="checkbox"] {
+  accent-color: var(--color-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .editor-body {
+    grid-template-columns: 1fr;
+  }
+
+  .editor-sidebar {
+    order: -1;
+  }
+
+  .editor-title-input {
+    font-size: var(--font-size-2xl);
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: flex-start;
+  }
+
+  .posts-table {
+    font-size: var(--font-size-xs);
+  }
+
+  .posts-table th,
+  .posts-table td {
+    padding: var(--space-3) var(--space-4);
+  }
+}
