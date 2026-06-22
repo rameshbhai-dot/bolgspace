@@ -91,7 +91,7 @@ export function renderTerms(root) {
             <h2>12. Contact Us</h2>
             <p>If you have any questions about these Terms of Service, please contact us at:</p>
             <ul>
-              <li>Email: <a href="mailto:support@blogspace.com">support@blogspace.com</a></li>
+              <li>Email: <a href="mailto:whitcroftholdings@gmail.com">whitcroftholdings@gmail.com</a></li>
             </ul>
           </div>
         </div>

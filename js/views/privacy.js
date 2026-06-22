@@ -106,7 +106,7 @@ export function renderPrivacy(root) {
             <h2>11. Contact Us</h2>
             <p>If you have any questions about this Privacy Policy, please contact us at:</p>
             <ul>
-              <li>Email: <a href="mailto:privacy@blogspace.com">privacy@blogspace.com</a></li>
+              <li>Email: <a href="mailto:whitcroftholdings@gmail.com">whitcroftholdings@gmail.com</a></li>
             </ul>
           </div>
         </div>
