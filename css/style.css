@@ -172,6 +172,10 @@ button {
   color: var(--color-primary);
 }
 
+.mobile-nav-item {
+  display: none !important;
+}
+
 /* Dropdown */
 .nav-dropdown {
   position: relative;
@@ -1197,6 +1201,10 @@ select.form-input {
 
   .nav-links.active {
     display: flex;
+  }
+
+  .nav-links .mobile-nav-item {
+    display: block !important;
   }
 
   .mobile-menu-btn {

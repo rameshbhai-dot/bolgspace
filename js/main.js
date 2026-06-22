@@ -7,6 +7,13 @@ document.addEventListener('DOMContentLoaded', function () {
     mobileMenuBtn.addEventListener('click', function () {
       navLinks.classList.toggle('active');
     });
+
+    // Close menu when a link inside it is clicked
+    navLinks.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A' || e.target.closest('a')) {
+        navLinks.classList.remove('active');
+      }
+    });
   }
 
   // Close mobile menu when clicking outside

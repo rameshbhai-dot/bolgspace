@@ -45,6 +45,9 @@ function updateNav() {
   let linksHtml = `
     <a href="#/" class="nav-link">Home</a>
     <a href="#/about" class="nav-link">About</a>
+    <a href="#/about" class="nav-link mobile-nav-item">Contact</a>
+    <a href="#/privacy" class="nav-link mobile-nav-item">Privacy Policy</a>
+    <a href="#/terms" class="nav-link mobile-nav-item">Terms of Service</a>
   `;
   
   if (currentUser) {
@@ -93,6 +96,7 @@ function updateNav() {
 
 // Simple Hash Router
 async function router() {
+  window.scrollTo(0, 0);
   const hash = window.location.hash || '#/';
   const root = document.getElementById('app-root');
   
