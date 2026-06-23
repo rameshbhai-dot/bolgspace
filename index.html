@@ -1,126 +1,739 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="BlogSpace - A modern publishing platform for writers, thinkers, and creators. Read and share stories on technology, culture, lifestyle, and more.">
-  <meta name="keywords" content="blog, writing, publishing, technology, culture, lifestyle, editorial">
-  <meta name="author" content="BlogSpace">
-  <title>BlogSpace - Where Great Ideas Find Their Voice</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./css/style.css">
-  <link rel="stylesheet" href="./css/admin.css">
-  <link rel="stylesheet" href="./css/editor.css">
-  <link rel="stylesheet" href="./css/about.css">
-  <link rel="stylesheet" href="./css/legal.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Quill Rich Text Editor -->
-  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-
-  <!-- ============================================
-       GOOGLE ADSENSE - ACTIVE CODE
-       ============================================ -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6732536198242513"
-     crossorigin="anonymous"></script>
-
+  <meta name="description" content="FinanceFlow — Your trusted source for smart investing, budgeting tips, tax strategies, and wealth-building insights for Indian and global markets.">
+  <meta name="keywords" content="finance blog, investing, budgeting, tax saving, cryptocurrency, personal finance, mutual funds, SIP, Indian finance">
+  <meta name="author" content="FinanceFlow">
+  <meta property="og:title" content="FinanceFlow — Master Your Money, Shape Your Future">
+  <meta property="og:description" content="Expert insights on investing, budgeting, tax planning, and building lasting wealth.">
+  <meta property="og:type" content="website">
+  <title>FinanceFlow — Master Your Money, Shape Your Future</title>
+  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
 </head>
 <body>
 
-  <!-- Navigation -->
-  <nav class="navbar">
-    <div class="container navbar-container">
-      <a href="#/" class="logo">Blog<span>Space</span></a>
+  <!-- Reading Progress Bar -->
+  <div style="position:fixed;top:0;left:0;height:3px;background:var(--gradient-gold);z-index:10000;width:0;transition:width 0.1s linear;" id="readingProgress"></div>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#" class="nav-logo">
+        <span class="nav-logo-icon">F</span>
+        Finance<span style="color:var(--accent)">Flow</span>
+      </a>
+
       <div class="nav-links" id="navLinks">
-        <a href="#/" class="nav-link">Home</a>
-        <a href="#/about" class="nav-link">About</a>
+        <a href="#featured">Featured</a>
+        <a href="#categories">Categories</a>
+        <a href="#articles">Articles</a>
+        <a href="#about">About</a>
+        <a href="#newsletter">Subscribe</a>
       </div>
-      
-      <div class="nav-auth" id="authNav">
-        <!-- Injected via JS -->
+
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+          <span class="theme-icon">☀️</span>
+        </button>
+        <button class="btn-nav-auth" id="openPublishModal" style="background: var(--gradient-gold); color: black; border: none; font-weight: bold; border-radius: 8px; padding: 8px 16px;">+ Write a Post</button>
+        <button class="btn-nav-auth" id="openSignIn">Sign In</button>
+        <a href="#" class="nav-cta" id="openSignUp">Sign Up</a>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
-      
-      <button class="mobile-menu-btn" id="mobileMenuBtn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-      </button>
     </div>
   </nav>
 
-  <!-- Main Content Area -->
-  <main id="app-root">
-    <div style="text-align: center; padding: 100px;">
-      <h2>Loading...</h2>
-    </div>
-  </main>
+  <!-- ========== HERO SECTION ========== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <canvas id="heroCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;"></canvas>
 
-  <!-- Footer -->
-  <footer class="footer">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        India's #1 Finance Blog
+      </div>
+      <h1 class="hero-title">
+        Master Your Money,<br>
+        <span class="highlight" id="typewriter">Smart Investing</span>
+      </h1>
+      <p class="hero-subtitle">
+        Expert insights on investing, budgeting, tax planning, and building lasting wealth — 
+        tailored for Indian investors and global markets.
+      </p>
+      <div class="hero-actions">
+        <a href="#articles" class="btn btn-primary">
+          📖 Explore Articles
+        </a>
+        <a href="#newsletter" class="btn btn-outline">
+          🔔 Get Free Tips
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ========== STATS SECTION ========== -->
+  <section class="stats">
     <div class="container">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <a href="#/" class="logo" style="margin-bottom: var(--space-4); display: inline-block;">Blog<span>Space</span></a>
-          <p style="color: var(--color-text-muted); font-size: var(--font-size-sm); margin-bottom: var(--space-4);">Where great ideas find their voice. A modern publishing platform for modern thinkers.</p>
+      <div class="stats-grid stagger-children animate-on-scroll">
+        <div class="stat-item">
+          <div class="stat-number" data-counter="500" data-suffix="+">0</div>
+          <div class="stat-label">Articles Published</div>
         </div>
-        <div class="footer-col">
-          <h4 class="footer-title">Explore</h4>
-          <ul class="footer-links">
-            <li><a href="#/">Home</a></li>
-            <li><a href="#/about">About</a></li>
-            <li><a href="#/sponsor">Sponsor a Post</a></li>
-          </ul>
+        <div class="stat-item">
+          <div class="stat-number" data-counter="50" data-suffix="K+">0</div>
+          <div class="stat-label">Monthly Readers</div>
         </div>
-        <div class="footer-col">
-          <h4 class="footer-title">Company</h4>
-          <ul class="footer-links">
-            <li><a href="#/privacy">Privacy Policy</a></li>
-            <li><a href="#/terms">Terms of Service</a></li>
-            <li><a href="#/about">Contact</a></li>
-          </ul>
+        <div class="stat-item">
+          <div class="stat-number" data-counter="12" data-suffix="+">0</div>
+          <div class="stat-label">Expert Authors</div>
         </div>
-        <div class="footer-col">
-          <h4 class="footer-title">Stay Inspired</h4>
-          <p style="color: var(--color-text-muted); font-size: var(--font-size-sm); margin-bottom: var(--space-4);">Get the best stories delivered straight to your inbox.</p>
-          <div style="display: flex; gap: var(--space-2);">
-            <input type="email" placeholder="Email address" class="form-input" style="padding: 0.5rem; flex: 1;">
-            <button class="btn btn-primary" style="padding: 0.5rem 1rem;">Subscribe</button>
+        <div class="stat-item">
+          <div class="stat-number" data-counter="98" data-suffix="%">0</div>
+          <div class="stat-label">Reader Satisfaction</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FEATURED POSTS ========== -->
+  <section class="section" id="featured">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">🔥 Trending Now</span>
+        <h2 class="section-title">Featured Stories</h2>
+        <p class="section-subtitle">Our most popular and impactful articles, handpicked by our editors.</p>
+      </div>
+
+      <div class="featured-grid">
+        <!-- Featured 1: Main (Large) -->
+        <article class="featured-card animate-on-scroll" id="featured-post-1">
+          <div class="featured-card-image">
+            <img src="images/investment-strategies.png" alt="Smart Investment Strategies for 2026" loading="lazy">
+          </div>
+          <div class="featured-card-content">
+            <span class="card-category">Investing</span>
+            <h3 class="card-title">5 Smart Investment Strategies That Will Define 2026</h3>
+            <div class="card-meta">
+              <span>📅 June 20, 2026</span>
+              <span>⏱️ 8 min read</span>
+              <span>👤 Arjun Mehta</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Featured 2 -->
+        <article class="featured-card animate-on-scroll delay-1" id="featured-post-2">
+          <div class="featured-card-image">
+            <img src="images/emergency-fund.png" alt="Building an Emergency Fund" loading="lazy">
+          </div>
+          <div class="featured-card-content">
+            <span class="card-category">Savings</span>
+            <h3 class="card-title">The Ultimate Guide to Building Your Emergency Fund</h3>
+            <div class="card-meta">
+              <span>📅 June 18, 2026</span>
+              <span>⏱️ 6 min read</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Featured 3 -->
+        <article class="featured-card animate-on-scroll delay-2" id="featured-post-3">
+          <div class="featured-card-image">
+            <img src="images/crypto-investing.png" alt="Crypto vs Traditional Investing" loading="lazy">
+          </div>
+          <div class="featured-card-content">
+            <span class="card-category">Crypto</span>
+            <h3 class="card-title">Crypto vs. Traditional Investing: What's Right for You?</h3>
+            <div class="card-meta">
+              <span>📅 June 15, 2026</span>
+              <span>⏱️ 10 min read</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CATEGORIES ========== -->
+  <section class="section" id="categories" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">📂 Browse Topics</span>
+        <h2 class="section-title">Explore Categories</h2>
+        <p class="section-subtitle">Dive deep into the financial topics that matter most to you.</p>
+      </div>
+
+      <div class="categories-grid stagger-children animate-on-scroll">
+        <div class="category-card" id="cat-investing">
+          <span class="category-icon">📈</span>
+          <h3 class="category-name">Investing</h3>
+          <span class="category-count">85 Articles</span>
+        </div>
+        <div class="category-card" id="cat-budgeting">
+          <span class="category-icon">💰</span>
+          <h3 class="category-name">Budgeting</h3>
+          <span class="category-count">62 Articles</span>
+        </div>
+        <div class="category-card" id="cat-crypto">
+          <span class="category-icon">₿</span>
+          <h3 class="category-name">Crypto</h3>
+          <span class="category-count">48 Articles</span>
+        </div>
+        <div class="category-card" id="cat-savings">
+          <span class="category-icon">🏦</span>
+          <h3 class="category-name">Savings</h3>
+          <span class="category-count">73 Articles</span>
+        </div>
+        <div class="category-card" id="cat-tax">
+          <span class="category-icon">📋</span>
+          <h3 class="category-name">Tax Tips</h3>
+          <span class="category-count">41 Articles</span>
+        </div>
+        <div class="category-card" id="cat-sidehustle">
+          <span class="category-icon">🚀</span>
+          <h3 class="category-name">Side Hustles</h3>
+          <span class="category-count">56 Articles</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== LATEST ARTICLES ========== -->
+  <section class="section" id="articles">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">📰 Fresh Content</span>
+        <h2 class="section-title">Latest Articles</h2>
+        <p class="section-subtitle">Stay ahead with our newest guides, analyses, and expert opinions.</p>
+      </div>
+
+      <div class="articles-grid">
+        <!-- Article 1 -->
+        <article class="article-card animate-on-scroll" id="article-1">
+          <div class="article-card-image">
+            <span class="card-category">Budgeting</span>
+            <img src="images/budgeting.png" alt="Budget Like a Pro with 50/30/20 Rule" loading="lazy">
+          </div>
+          <div class="article-card-body">
+            <h3 class="card-title">How to Budget Like a Pro: The 50/30/20 Rule Explained</h3>
+            <p class="card-excerpt">
+              The 50/30/20 rule is one of the simplest yet most powerful budgeting frameworks. Learn how to allocate 50% to needs, 30% to wants, and 20% to savings — with real examples in Indian Rupees.
+            </p>
+            <div class="card-footer">
+              <div class="card-author">
+                <div class="card-author-avatar">PM</div>
+                <div>
+                  <div class="card-author-name">Priya Malhotra</div>
+                  <div class="card-author-date">June 19, 2026</div>
+                </div>
+              </div>
+              <span class="card-read-time">⏱️ 5 min</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article 2 -->
+        <article class="article-card animate-on-scroll delay-1" id="article-2">
+          <div class="article-card-image">
+            <span class="card-category">Tax Tips</span>
+            <img src="images/tax-saving.png" alt="Tax Saving Tips for Salaried Employees" loading="lazy">
+          </div>
+          <div class="article-card-body">
+            <h3 class="card-title">Tax-Saving Tips Every Salaried Employee Should Know in India</h3>
+            <p class="card-excerpt">
+              From Section 80C to HRA exemptions, discover the most effective tax-saving instruments available under the old and new Indian tax regimes. Save up to ₹1.5 Lakh annually.
+            </p>
+            <div class="card-footer">
+              <div class="card-author">
+                <div class="card-author-avatar">RK</div>
+                <div>
+                  <div class="card-author-name">Rahul Kapoor</div>
+                  <div class="card-author-date">June 17, 2026</div>
+                </div>
+              </div>
+              <span class="card-read-time">⏱️ 7 min</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article 3 -->
+        <article class="article-card animate-on-scroll delay-2" id="article-3">
+          <div class="article-card-image">
+            <span class="card-category">Side Hustles</span>
+            <img src="images/side-hustles.png" alt="Side Hustles to Earn Extra Income" loading="lazy">
+          </div>
+          <div class="article-card-body">
+            <h3 class="card-title">10 Side Hustles That Can Earn You ₹50,000/Month in 2026</h3>
+            <p class="card-excerpt">
+              From freelancing and content creation to dropshipping and stock photography — explore proven side hustles that Indians are using to build secondary income streams.
+            </p>
+            <div class="card-footer">
+              <div class="card-author">
+                <div class="card-author-avatar">AS</div>
+                <div>
+                  <div class="card-author-name">Ananya Sharma</div>
+                  <div class="card-author-date">June 14, 2026</div>
+                </div>
+              </div>
+              <span class="card-read-time">⏱️ 9 min</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article 4 -->
+        <article class="article-card animate-on-scroll delay-3" id="article-4">
+          <div class="article-card-image">
+            <span class="card-category">Investing</span>
+            <img src="images/investment-strategies.png" alt="Understanding Mutual Funds in India" loading="lazy">
+          </div>
+          <div class="article-card-body">
+            <h3 class="card-title">Understanding Mutual Funds: A Beginner's Guide for Indian Investors</h3>
+            <p class="card-excerpt">
+              Confused about equity, debt, and hybrid mutual funds? This comprehensive guide breaks down every type of mutual fund, their risk profiles, and how to pick the best ones for your portfolio.
+            </p>
+            <div class="card-footer">
+              <div class="card-author">
+                <div class="card-author-avatar">AM</div>
+                <div>
+                  <div class="card-author-name">Arjun Mehta</div>
+                  <div class="card-author-date">June 12, 2026</div>
+                </div>
+              </div>
+              <span class="card-read-time">⏱️ 8 min</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article 5 -->
+        <article class="article-card animate-on-scroll delay-4" id="article-5">
+          <div class="article-card-image">
+            <span class="card-category">Savings</span>
+            <img src="images/emergency-fund.png" alt="Start a SIP for Long-Term Wealth" loading="lazy">
+          </div>
+          <div class="article-card-body">
+            <h3 class="card-title">How to Start a SIP and Build Long-Term Wealth with ₹500/Month</h3>
+            <p class="card-excerpt">
+              Systematic Investment Plans (SIPs) are the most accessible way to build wealth in India. Learn how starting with just ₹500 per month can grow into ₹1 Crore over 25 years.
+            </p>
+            <div class="card-footer">
+              <div class="card-author">
+                <div class="card-author-avatar">NJ</div>
+                <div>
+                  <div class="card-author-name">Neha Joshi</div>
+                  <div class="card-author-date">June 10, 2026</div>
+                </div>
+              </div>
+              <span class="card-read-time">⏱️ 6 min</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article 6 -->
+        <article class="article-card animate-on-scroll delay-5" id="article-6">
+          <div class="article-card-image">
+            <span class="card-category">Crypto</span>
+            <img src="images/crypto-investing.png" alt="Global Crypto Regulations 2026" loading="lazy">
+          </div>
+          <div class="article-card-body">
+            <h3 class="card-title">Global Crypto Regulations in 2026: What Indian Investors Need to Know</h3>
+            <p class="card-excerpt">
+              With India's 30% crypto tax and 1% TDS in place, navigating the regulatory landscape is crucial. We break down rules across India, US, EU, and how they affect your portfolio.
+            </p>
+            <div class="card-footer">
+              <div class="card-author">
+                <div class="card-author-avatar">VR</div>
+                <div>
+                  <div class="card-author-name">Vikram Rao</div>
+                  <div class="card-author-date">June 8, 2026</div>
+                </div>
+              </div>
+              <span class="card-read-time">⏱️ 11 min</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== NEWSLETTER ========== -->
+  <section class="section newsletter" id="newsletter">
+    <div class="container">
+      <div class="newsletter-content animate-on-scroll">
+        <div class="newsletter-icon">💌</div>
+        <h2 class="section-title">Get Smarter About Money</h2>
+        <p class="section-subtitle" style="margin-bottom:0;">
+          Join 50,000+ readers who get our weekly newsletter with actionable finance tips, market insights, and exclusive guides — completely free.
+        </p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" placeholder="Enter your email address" required aria-label="Email address">
+          <button type="submit" class="btn btn-primary">Subscribe Free</button>
+        </form>
+        <p class="newsletter-privacy">🔒 No spam, ever. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ABOUT SECTION ========== -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-content animate-on-scroll">
+        <div class="about-image">
+          <div class="about-avatar">
+            <div class="about-avatar-inner">📊</div>
+          </div>
+        </div>
+        <div class="about-text">
+          <span class="section-label">✍️ About Us</span>
+          <h2>The Story Behind FinanceFlow</h2>
+          <p>
+            FinanceFlow was born from a simple belief: <strong>financial literacy shouldn't be complicated</strong>. 
+            Founded in 2024 by a team of SEBI-certified financial advisors, chartered accountants, and tech enthusiasts, 
+            we bridge the gap between complex financial concepts and everyday money decisions.
+          </p>
+          <p>
+            Whether you're a first-time investor in Mumbai trying to understand SIPs, or a seasoned trader in 
+            New York exploring crypto, our content is crafted to empower you with knowledge that actually moves 
+            the needle on your net worth.
+          </p>
+          <div class="about-social">
+            <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
+            <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+            <a href="#" class="social-link" aria-label="YouTube">▶</a>
+            <a href="#" class="social-link" aria-label="Instagram">📷</a>
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="nav-logo" style="margin-bottom:var(--space-sm);">
+            <span class="nav-logo-icon">F</span>
+            Finance<span style="color:var(--accent)">Flow</span>
+          </a>
+          <p>Your trusted companion on the journey to financial freedom. Expert insights for Indian and global investors.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="#featured">Featured</a></li>
+            <li><a href="#categories">Categories</a></li>
+            <li><a href="#articles">Articles</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#newsletter">Newsletter</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Categories</h4>
+          <ul class="footer-links">
+            <li><a href="#cat-investing">Investing</a></li>
+            <li><a href="#cat-budgeting">Budgeting</a></li>
+            <li><a href="#cat-crypto">Cryptocurrency</a></li>
+            <li><a href="#cat-savings">Savings</a></li>
+            <li><a href="#cat-tax">Tax Planning</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Resources</h4>
+          <ul class="footer-links">
+            <li><a href="#">SIP Calculator</a></li>
+            <li><a href="#">Tax Calculator</a></li>
+            <li><a href="#">Budget Planner</a></li>
+            <li><a href="#">Investment Guide</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+
       <div class="footer-bottom">
-        <p>&copy; 2026 BlogSpace. All rights reserved.</p>
+        <span>© 2026 FinanceFlow. All rights reserved.</span>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Disclaimer</a>
+        </div>
       </div>
     </div>
   </footer>
 
-  <!-- Cookie Consent Banner (Required for AdSense + GDPR) -->
-  <div class="cookie-banner" id="cookieBanner" style="display: none;">
-    <p>We use cookies to enhance your experience and serve personalized ads via Google AdSense. By continuing, you agree to our <a href="#/privacy">Privacy Policy</a>.</p>
-    <div class="cookie-banner-actions">
-      <button class="btn-accept" id="acceptCookies">Accept All</button>
-      <button class="btn-decline" id="declineCookies">Decline</button>
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+  <!-- ========== SIGN IN MODAL ========== -->
+  <div class="auth-overlay" id="authOverlay"></div>
+
+  <div class="auth-modal" id="signInModal">
+    <button class="auth-modal-close" id="closeSignIn" aria-label="Close">✕</button>
+    <div class="auth-modal-header">
+      <div class="auth-modal-logo">
+        <span class="nav-logo-icon">F</span>
+      </div>
+      <h2 class="auth-modal-title">Welcome Back</h2>
+      <p class="auth-modal-subtitle">Sign in to access your personalized feed, saved articles, and more.</p>
+    </div>
+
+    <form class="auth-form" id="signInForm">
+      <div class="auth-field">
+        <label for="signInEmail">Email Address</label>
+        <div class="auth-input-wrap">
+          <span class="auth-input-icon">📧</span>
+          <input type="email" id="signInEmail" placeholder="you@example.com" required autocomplete="email">
+        </div>
+      </div>
+
+      <div class="auth-field">
+        <label for="signInPassword">Password</label>
+        <div class="auth-input-wrap">
+          <span class="auth-input-icon">🔒</span>
+          <input type="password" id="signInPassword" placeholder="Enter your password" required autocomplete="current-password">
+          <button type="button" class="auth-password-toggle" data-target="signInPassword" aria-label="Toggle password visibility">👁️</button>
+        </div>
+      </div>
+
+      <div class="auth-options">
+        <label class="auth-checkbox">
+          <input type="checkbox" id="rememberMe">
+          <span class="auth-checkmark"></span>
+          Remember me
+        </label>
+        <a href="#" class="auth-forgot">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn btn-primary auth-submit">Sign In</button>
+    </form>
+
+    <div class="auth-divider">
+      <span>or continue with</span>
+    </div>
+
+    <div class="auth-social">
+      <button class="auth-social-btn" id="googleSignIn">
+        <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.9 33.5 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C34 6 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.2-2.7-.4-3.9z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.5 15.5 18.8 12 24 12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C34 6 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-1.9 13.4-5l-6.2-5.2C29.2 35.2 26.7 36 24 36c-5.2 0-9.6-3.4-11.2-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.7 39.5 44 34 44 24c0-1.3-.2-2.7-.4-3.9z"/></svg>
+        Google
+      </button>
+      <button class="auth-social-btn" id="githubSignIn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.43 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.21.08 1.85 1.24 1.85 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.02 0c2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.82.58C20.57 21.8 24 17.31 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </button>
+    </div>
+
+    <div class="auth-switch">
+      Don't have an account? <a href="#" id="switchToSignUp">Sign Up</a>
     </div>
   </div>
 
-  <!-- Application Logic -->
-  <script type="module" src="./js/app.js"></script>
+  <!-- ========== SIGN UP MODAL ========== -->
+  <div class="auth-modal" id="signUpModal">
+    <button class="auth-modal-close" id="closeSignUp" aria-label="Close">✕</button>
+    <div class="auth-modal-header">
+      <div class="auth-modal-logo">
+        <span class="nav-logo-icon">F</span>
+      </div>
+      <h2 class="auth-modal-title">Create Your Account</h2>
+      <p class="auth-modal-subtitle">Join 50,000+ readers on their journey to financial freedom.</p>
+    </div>
 
-  <!-- Cookie Consent Script -->
-  <script>
-    (function() {
-      const consent = localStorage.getItem('blogspace_cookie_consent');
-      const banner = document.getElementById('cookieBanner');
-      if (!consent && banner) {
-        banner.style.display = 'flex';
-      }
-      document.getElementById('acceptCookies')?.addEventListener('click', function() {
-        localStorage.setItem('blogspace_cookie_consent', 'accepted');
-        banner.style.display = 'none';
-      });
-      document.getElementById('declineCookies')?.addEventListener('click', function() {
-        localStorage.setItem('blogspace_cookie_consent', 'declined');
-        banner.style.display = 'none';
-      });
-    })();
-  </script>
+    <form class="auth-form" id="signUpForm">
+      <div class="auth-field">
+        <label for="signUpName">Full Name</label>
+        <div class="auth-input-wrap">
+          <span class="auth-input-icon">👤</span>
+          <input type="text" id="signUpName" placeholder="Your full name" required autocomplete="name">
+        </div>
+      </div>
+
+      <div class="auth-field">
+        <label for="signUpEmail">Email Address</label>
+        <div class="auth-input-wrap">
+          <span class="auth-input-icon">📧</span>
+          <input type="email" id="signUpEmail" placeholder="you@example.com" required autocomplete="email">
+        </div>
+      </div>
+
+      <div class="auth-field">
+        <label for="signUpPassword">Password</label>
+        <div class="auth-input-wrap">
+          <span class="auth-input-icon">🔒</span>
+          <input type="password" id="signUpPassword" placeholder="Create a strong password" required minlength="8" autocomplete="new-password">
+          <button type="button" class="auth-password-toggle" data-target="signUpPassword" aria-label="Toggle password visibility">👁️</button>
+        </div>
+        <div class="auth-password-strength" id="passwordStrength">
+          <div class="strength-bars">
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+          </div>
+          <span class="strength-text">Password strength</span>
+        </div>
+      </div>
+
+      <div class="auth-field">
+        <label for="signUpConfirm">Confirm Password</label>
+        <div class="auth-input-wrap">
+          <span class="auth-input-icon">🔐</span>
+          <input type="password" id="signUpConfirm" placeholder="Confirm your password" required autocomplete="new-password">
+          <button type="button" class="auth-password-toggle" data-target="signUpConfirm" aria-label="Toggle password visibility">👁️</button>
+        </div>
+      </div>
+
+      <label class="auth-checkbox" style="margin-bottom: var(--space-lg);">
+        <input type="checkbox" id="agreeTerms" required>
+        <span class="auth-checkmark"></span>
+        I agree to the <a href="#" style="color:var(--accent)">Terms of Service</a> and <a href="#" style="color:var(--accent)">Privacy Policy</a>
+      </label>
+
+      <button type="submit" class="btn btn-primary auth-submit">Create Account</button>
+    </form>
+
+    <div class="auth-divider">
+      <span>or sign up with</span>
+    </div>
+
+    <div class="auth-social">
+      <button class="auth-social-btn" id="googleSignUp">
+        <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.9 33.5 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C34 6 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.2-2.7-.4-3.9z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.5 15.5 18.8 12 24 12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C34 6 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-1.9 13.4-5l-6.2-5.2C29.2 35.2 26.7 36 24 36c-5.2 0-9.6-3.4-11.2-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.7 39.5 44 34 44 24c0-1.3-.2-2.7-.4-3.9z"/></svg>
+        Google
+      </button>
+      <button class="auth-social-btn" id="githubSignUp">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.43 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.21.08 1.85 1.24 1.85 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.02 0c2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.82.58C20.57 21.8 24 17.31 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </button>
+    </div>
+
+    <div class="auth-switch">
+      Already have an account? <a href="#" id="switchToSignIn">Sign In</a>
+    </div>
+  </div>
+
+  <!-- ========== ARTICLE READER MODAL ========== -->
+  <div class="article-reader-modal" id="articleReaderModal">
+    <div class="article-reader-header">
+      <button class="reader-close-btn" id="closeReaderBtn" aria-label="Close article">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        Back
+      </button>
+      <div class="reader-progress-bar" id="readerProgress"></div>
+    </div>
+    
+    <div class="article-reader-content">
+      <div class="reader-hero">
+        <span class="reader-category" id="readerCategory">Category</span>
+        <h1 class="reader-title" id="readerTitle">Article Title</h1>
+        <div class="reader-meta">
+          <div class="reader-author-avatar" id="readerAuthorAvatar">A</div>
+          <div>
+            <div class="reader-author-name" id="readerAuthorName">Author Name</div>
+            <div class="reader-date-read">
+              <span id="readerDate">Date</span> · <span id="readerReadTime">5 min</span> read
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="reader-image-wrap">
+        <img id="readerImage" src="" alt="Article hero">
+      </div>
+
+      <div class="reader-body" id="readerBody">
+        <!-- Dynamic content goes here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SIGNED-IN SUCCESS TOAST ========== -->
+  <div class="auth-toast" id="authToast">
+    <span class="auth-toast-icon">✅</span>
+    <span class="auth-toast-text" id="authToastText">Successfully signed in!</span>
+  </div>
+
+  <!-- ========== PUBLISHER MODAL ========== -->
+  <div class="auth-overlay" id="publishModalOverlay"></div>
+  <div class="auth-modal" id="publishModal">
+    <button class="auth-close" id="closePublishModal">✕</button>
+    <div class="auth-header">
+      <h2 class="auth-title">Publish an Article</h2>
+      <p class="auth-subtitle">Share your financial knowledge with the world.</p>
+    </div>
+
+    <form id="publishForm">
+      <div class="auth-field">
+        <label for="pubTitle">Article Title</label>
+        <div class="auth-input-wrap">
+          <input type="text" id="pubTitle" placeholder="e.g. 5 Ways to Save Tax" required>
+        </div>
+      </div>
+
+      <div class="auth-field" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+        <div>
+          <label for="pubCategory">Category</label>
+          <div class="auth-input-wrap">
+            <select id="pubCategory" required style="width: 100%; padding: 14px 14px 14px 16px; border: none; background: transparent; color: var(--text-primary); font-family: inherit; font-size: var(--fs-base); outline: none;">
+              <option value="Investing">Investing</option>
+              <option value="Budgeting">Budgeting</option>
+              <option value="Crypto">Crypto</option>
+              <option value="Savings">Savings</option>
+              <option value="Tax Tips">Tax Tips</option>
+              <option value="Side Hustles">Side Hustles</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label for="pubImage">Cover Image</label>
+          <div class="auth-input-wrap">
+            <select id="pubImage" required style="width: 100%; padding: 14px 14px 14px 16px; border: none; background: transparent; color: var(--text-primary); font-family: inherit; font-size: var(--fs-base); outline: none;">
+              <option value="images/investment-strategies.png">Investing Chart</option>
+              <option value="images/budgeting.png">Budgeting Tools</option>
+              <option value="images/crypto-investing.png">Crypto Coins</option>
+              <option value="images/emergency-fund.png">Savings Vault</option>
+              <option value="images/tax-saving.png">Tax Documents</option>
+              <option value="images/side-hustles.png">Side Hustle Rocket</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-field">
+        <label for="pubExcerpt">Short Excerpt</label>
+        <textarea id="pubExcerpt" placeholder="A 2-3 sentence summary..." rows="2" required style="width: 100%; padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-family: inherit; resize: vertical; outline: none;"></textarea>
+      </div>
+
+      <div class="auth-field">
+        <label for="pubContent">Full Article Content (HTML allowed)</label>
+        <textarea id="pubContent" placeholder="<p>Write your amazing article here...</p>" rows="6" required style="width: 100%; padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-family: inherit; resize: vertical; outline: none;"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary auth-submit">Publish Article</button>
+    </form>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js?v=14"></script>
+
+  <script src="finance5.js"></script>
 </body>
 </html>
